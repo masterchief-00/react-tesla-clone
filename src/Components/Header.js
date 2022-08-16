@@ -2,29 +2,54 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import MenuIcon from "@mui/icons-material/Menu";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
+import { selectCars } from "../features/car/CarSlice";
+import { useSelector } from "react-redux";
 
 function Header() {
   const [burgerState, setBurgerState] = useState(false);
+  const cars = useSelector(selectCars);
   return (
     <Container>
       <a>
         <img src="/images/logo.svg" alt="" />
       </a>
       <Menu>
-        <a href="#">Model S</a>
-        <a href="#">Model 3</a>
-        <a href="#">Model Y</a>
-        <a href="#">Model X</a>
+        {cars &&
+          cars.map((car, index) => {
+            return (
+              <a key={index} href="#">
+                {car}
+              </a>
+            );
+          })}
       </Menu>
       <RightMenu>
         <a href="">Shop</a>
         <a href="">Tesla Account</a>
-        <CustomMenu onClick={()=>{setBurgerState(true)}}/>
+        <CustomMenu
+          onClick={() => {
+            setBurgerState(true);
+          }}
+        />
       </RightMenu>
       <BurgerNav show={burgerState}>
         <CloseWrapper>
-          <CustomCloseBtn onClick={()=>{setBurgerState(false)}}/>
+          <CustomCloseBtn
+            onClick={() => {
+              setBurgerState(false);
+            }}
+          />
         </CloseWrapper>
+        {cars &&
+          cars.map((car, index) => {
+            return (
+              <li key={index}>
+                <a href="#">
+                  {car}
+                </a>
+              </li>
+            );
+          })}
         <li>
           <a href="#">Existing Inventory</a>
         </li>
